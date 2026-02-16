@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Sparkles } from 'lucide-react';
 
 const AIConcierge = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +23,26 @@ const AIConcierge = () => {
       });
       
       const data = await response.json();
-      console.log('AI Filter results:', data.filters);
-      // In a real app, we would redirect to /search?filters=... or update a global state
+
+      if (data.filters) {
+        const params = new URLSearchParams();
+
+        Object.entries(data.filters).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            if (Array.isArray(value)) {
+              if (value.length > 0) {
+                params.append(key, value.join(','));
+              }
+            } else {
+              params.append(key, value.toString());
+            }
+          }
+        });
+
+        router.push(`/search?${params.toString()}`);
+        setIsOpen(false);
+        setQuery('');
+      }
     } catch (error) {
       console.error('Search failed:', error);
     } finally {
