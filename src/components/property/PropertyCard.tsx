@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Bed, Bath, Square, ShieldCheck, Video, Box, Heart, Scale } from 'lucide-react';
+import { Bed, Bath, Square, Heart, Video, Box } from 'lucide-react';
 import { Property } from '@/types';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useComparisonStore } from '@/store/useComparisonStore';
 
@@ -23,145 +22,93 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
 
   return (
     <Link href={`/properties/${property.id}`} className="block h-full group">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -8 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white rounded-3xl overflow-hidden border border-blue-100 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 h-full flex flex-col"
-      >
+      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
         {/* Image Container */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-100 to-cyan-100">
+        <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
           <img 
             src={property.images[0]}
             alt={property.title}
-            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
           
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
           {/* Badges */}
-          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+          <div className="absolute top-3 left-3 flex gap-2">
             {property.is_verified && (
-              <motion.span 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-emerald-600 shadow-sm"
-              >
-                <ShieldCheck className="w-4 h-4" />
-                Verified
-              </motion.span>
+              <span className="bg-emerald-500 text-white px-2 py-1 rounded text-xs font-bold shadow-sm">
+                Verificado
+              </span>
             )}
-            {property.video_url && (
-              <motion.span 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-blue-600 shadow-sm"
-              >
-                <Video className="w-4 h-4" />
-                Video
-              </motion.span>
-            )}
-            {property.virtual_tour_url && (
-              <motion.span 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-cyan-600 shadow-sm"
-              >
-                <Box className="w-4 h-4" />
-                360°
-              </motion.span>
+             {property.video_url && (
+              <span className="bg-slate-900/70 backdrop-blur text-white px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+                <Video className="w-3 h-3" /> Video
+              </span>
             )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCompare}
-              className={`p-3 rounded-full backdrop-blur-md transition-all shadow-md ${
-                isCompared
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg'
-                  : 'bg-white/95 text-gray-400 hover:text-blue-500 hover:bg-white'
-              }`}
-              title={isCompared ? 'Added to compare' : 'Add to compare'}
-            >
-              <Scale className="w-5 h-5" />
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-full bg-white/95 backdrop-blur-md text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-md"
+          {/* Favorite Button */}
+           <button
+              className="absolute top-3 right-3 p-2 rounded-full bg-white/90 text-slate-400 hover:text-red-500 transition-colors shadow-sm"
+              onClick={(e) => {
+                e.preventDefault();
+                // Add to favorites logic
+              }}
             >
               <Heart className="w-5 h-5" />
-            </motion.button>
-          </div>
+            </button>
 
-          {/* Price Badge */}
-          <div className="absolute bottom-4 left-4 right-4">
-            <p className="text-3xl font-bold text-white drop-shadow-lg tracking-tight">
-              {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.price)}
-            </p>
-          </div>
+           {/* Price Tag (Bottom Left of Image) */}
+           <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full p-4 pt-12">
+              <p className="text-2xl font-bold text-white">
+                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.price)}
+              </p>
+           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-1">
-          {/* Seller Type */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className={`inline-block w-2.5 h-2.5 rounded-full ${property.seller_type === 'agency' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-emerald-500 to-teal-500'}`} />
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
-              {property.seller_type === 'agency' ? '🏢 Agency' : '👤 Private'}
-            </span>
+        <div className="p-5 flex flex-col flex-1">
+          {/* Title & Address */}
+          <div className="mb-4">
+             <h3 className="font-bold text-lg text-slate-900 mb-1 line-clamp-1 group-hover:text-brand-600 transition-colors">
+                {property.title}
+            </h3>
+            <p className="text-slate-500 text-sm line-clamp-1">
+                {property.address}
+            </p>
           </div>
 
-          {/* Title */}
-          <h3 className="font-bold text-lg text-gray-900 mb-1 leading-tight line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-text transition-colors">
-            {property.title}
-          </h3>
-          
-          {/* Address */}
-          <p className="text-gray-500 text-sm mb-5 line-clamp-1 flex items-center gap-2">
-            📍 {property.address}
-          </p>
-          
-          {/* Stats */}
-          <div className="mt-auto pt-5 border-t border-gray-100 grid grid-cols-3 gap-3">
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
+          {/* Features */}
+          <div className="flex items-center gap-4 text-slate-600 text-sm mb-4">
+             <div className="flex items-center gap-1.5">
+                <Bed className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold">{property.bedrooms}</span> <span className="text-slate-400 font-normal">habs</span>
+             </div>
+             <div className="flex items-center gap-1.5">
+                <Bath className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold">{property.bathrooms}</span> <span className="text-slate-400 font-normal">baños</span>
+             </div>
+             <div className="flex items-center gap-1.5">
+                <Square className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold">{property.area}</span> <span className="text-slate-400 font-normal">m²</span>
+             </div>
+          </div>
+
+          {/* Footer Actions */}
+          <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center">
+            <span className={`text-xs font-bold px-2 py-1 rounded ${property.seller_type === 'agency' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
+                {property.seller_type === 'agency' ? 'AGENCIA' : 'PARTICULAR'}
+            </span>
+
+            <button
+                onClick={handleCompare}
+                className={`text-sm font-medium transition-colors ${
+                    isCompared ? 'text-brand-600' : 'text-slate-400 hover:text-brand-600'
+                }`}
             >
-              <span className="text-xs text-gray-500 font-medium mb-1.5">Beds</span>
-              <div className="flex items-center gap-1 font-bold text-gray-800">
-                <Bed className="w-4 h-4 text-blue-500" />
-                {property.bedrooms}
-              </div>
-            </motion.div>
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
-            >
-              <span className="text-xs text-gray-500 font-medium mb-1.5">Baths</span>
-              <div className="flex items-center gap-1 font-bold text-gray-800">
-                <Bath className="w-4 h-4 text-cyan-500" />
-                {property.bathrooms}
-              </div>
-            </motion.div>
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
-            >
-              <span className="text-xs text-gray-500 font-medium mb-1.5">Area</span>
-              <div className="flex items-center gap-1 font-bold text-gray-800">
-                <Square className="w-4 h-4 text-blue-400" />
-                {property.area}m²
-              </div>
-            </motion.div>
+                {isCompared ? 'Comparando' : 'Comparar'}
+            </button>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 };
