@@ -1,0 +1,25 @@
+
+> inmoply@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+- Environments: .env.local
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+✓ Ready in 1136ms
+○ Compiling / ...
+ GET / 200 in 7.3s (compile: 6.4s, render: 931ms)
+○ Compiling /search ...
+ GET /search 200 in 7.0s (compile: 6.3s, render: 758ms)
+ GET /search 200 in 104ms (compile: 5ms, render: 98ms)
+ GET /properties/1 200 in 1518ms (compile: 1449ms, generate-params: 590ms, render: 69ms)
+ GET /login 200 in 1019ms (compile: 936ms, render: 83ms)
+ GET /register 200 in 749ms (compile: 664ms, render: 84ms)
+ GET /dashboard/agency 200 in 813ms (compile: 701ms, render: 112ms)

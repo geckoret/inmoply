@@ -1,94 +1,122 @@
 'use client';
 
 import React from 'react';
-import { Bed, Bath, Square, ShieldCheck, Building2, User, ArrowRightLeft } from 'lucide-react';
+import { Bed, Bath, Square, ShieldCheck, Video, Box, Heart, Scale } from 'lucide-react';
 import { Property } from '@/types';
 import { motion } from 'framer-motion';
-import { useComparisonStore } from '@/store/useComparisonStore';
 import Link from 'next/link';
+import { useComparisonStore } from '@/store/useComparisonStore';
 
 interface PropertyCardProps {
   property: Property;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const { items, addItem, removeItem } = useComparisonStore();
-  const isComparing = items.some(item => item.id === property.id);
+  const { addItem, items } = useComparisonStore();
+  const isCompared = items.some(item => item.id === property.id);
 
-  const toggleCompare = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleCompare = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation
     e.stopPropagation();
-    if (isComparing) {
-      removeItem(property.id);
-    } else {
-      addItem(property);
-    }
+    addItem(property);
   };
 
   return (
-    <Link href={`/properties/${property.id}`}>
+    <Link href={`/properties/${property.id}`} className="block h-full group">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full"
+        className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
       >
         <div className="relative aspect-[4/3] overflow-hidden">
           <img 
-            src={property.images[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
+            src={property.images[0]}
             alt={property.title}
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
+
+          {/* Badges */}
+          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
             {property.is_verified && (
-              <span className="flex items-center gap-1 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold text-green-600 shadow-sm w-fit">
-                <ShieldCheck className="w-3 h-3" />
+              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-emerald-600 shadow-sm">
+                <ShieldCheck className="w-3.5 h-3.5" />
                 Verified
               </span>
             )}
-            <span className={`flex items-center gap-1 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold shadow-sm w-fit ${
-              property.seller_type === 'private' 
-                ? 'bg-emerald-500/90 text-white' 
-                : 'bg-blue-500/90 text-white'
-            }`}>
-              {property.seller_type === 'private' ? <User className="w-3 h-3" /> : <Building2 className="w-3 h-3" />}
-              {property.seller_type === 'private' ? 'Particular' : 'Agency'}
-            </span>
+            {property.video_url && (
+              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-indigo-600 shadow-sm">
+                <Video className="w-3.5 h-3.5" />
+                Video
+              </span>
+            )}
+            {property.virtual_tour_url && (
+              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-violet-600 shadow-sm">
+                <Box className="w-3.5 h-3.5" />
+                360°
+              </span>
+            )}
           </div>
 
-          <button 
-            onClick={toggleCompare}
-            className={`absolute top-4 right-4 p-2 rounded-xl transition-all duration-300 ${
-              isComparing 
-                ? 'bg-indigo-600 text-white' 
-                : 'bg-white/80 backdrop-blur text-gray-600 hover:bg-white'
-            } shadow-sm z-10`}
-          >
-            <ArrowRightLeft className="w-4 h-4" />
-          </button>
+          <div className="absolute top-4 right-4 flex gap-2 z-10">
+            <button
+              onClick={handleCompare}
+              className={`p-2.5 rounded-full backdrop-blur-md transition-all shadow-sm ${
+                isCompared
+                  ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                  : 'bg-white/90 text-gray-400 hover:text-indigo-600 hover:bg-white'
+              }`}
+              title={isCompared ? "Added to compare" : "Add to compare"}
+            >
+              <Scale className="w-5 h-5" />
+            </button>
+            <button className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm">
+              <Heart className="w-5 h-5" />
+            </button>
+          </div>
 
-          <div className="absolute bottom-4 left-4">
-            <p className="text-2xl font-bold text-white drop-shadow-md">
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent" />
+
+          <div className="absolute bottom-4 left-4 right-4 text-white">
+            <p className="text-2xl font-bold tracking-tight">
               {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.price)}
             </p>
           </div>
         </div>
 
-        <div className="p-5">
-          <h3 className="font-semibold text-lg text-gray-900 mb-1 truncate">{property.title}</h3>
-          <p className="text-gray-500 text-sm mb-4 truncate">{property.address}</p>
+        <div className="p-5 flex flex-col flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`inline-block w-2 h-2 rounded-full ${property.seller_type === 'agency' ? 'bg-indigo-500' : 'bg-emerald-500'}`} />
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+              {property.seller_type}
+            </span>
+          </div>
+
+          <h3 className="font-bold text-lg text-gray-900 mb-1 leading-tight line-clamp-1 group-hover:text-indigo-600 transition-colors">
+            {property.title}
+          </h3>
+          <p className="text-gray-500 text-sm mb-4 line-clamp-1">{property.address}</p>
           
-          <div className="flex items-center justify-between py-3 border-t border-gray-50 text-gray-600">
-            <div className="flex items-center gap-1.5">
-              <Bed className="w-4 h-4 text-indigo-500" />
-              <span className="text-sm font-medium">{property.bedrooms} Bed</span>
+          <div className="mt-auto pt-4 border-t border-gray-100 grid grid-cols-3 gap-2">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
+              <span className="text-xs text-gray-400 font-medium mb-1">Beds</span>
+              <div className="flex items-center gap-1 font-bold text-gray-700">
+                <Bed className="w-4 h-4 text-indigo-500" />
+                {property.bedrooms}
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Bath className="w-4 h-4 text-indigo-500" />
-              <span className="text-sm font-medium">{property.bathrooms} Bath</span>
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
+              <span className="text-xs text-gray-400 font-medium mb-1">Baths</span>
+              <div className="flex items-center gap-1 font-bold text-gray-700">
+                <Bath className="w-4 h-4 text-indigo-500" />
+                {property.bathrooms}
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Square className="w-4 h-4 text-indigo-500" />
-              <span className="text-sm font-medium">{property.area} m²</span>
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
+              <span className="text-xs text-gray-400 font-medium mb-1">Area</span>
+              <div className="flex items-center gap-1 font-bold text-gray-700">
+                <Square className="w-4 h-4 text-indigo-500" />
+                {property.area}m²
+              </div>
             </div>
           </div>
         </div>
