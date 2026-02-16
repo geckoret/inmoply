@@ -1,0 +1,102 @@
+$ chmod +x scripts/bunx && export PATH="$(pwd)/scripts:$PATH" && bun x @cloudflare/next-on-pages
+⚡️ @cloudflare/next-on-pages CLI v.1.13.16
+
+⚡️ The project is set up for npm but it is currently being run via bun this might lead to build errors, please be sure to use the same package manager your project uses when running @cloudflare/next-on-pages
+
+⚡️ Detected Package Manager: bun (1.2.14)
+⚡️ Preparing project...
+⚡️ Project is ready
+⚡️ Building project...
+▲  Vercel CLI 50.17.1
+▲  WARN! Build not running on Vercel. System environment variables will not be available.
+▲
+▲  WARNING: You should not upload the `.next` directory.
+▲  Installing dependencies...
+▲  up to date in 2s
+▲  156 packages are looking for funding
+▲  run `npm fund` for details
+▲  Detected Next.js version: 16.1.6
+▲  Running "npm run build"
+▲  > inmoply@0.1.0 build
+▲  > next build
+▲  ▲ Next.js 16.1.6 (Turbopack)
+▲  - Environments: .env.local
+▲  Creating an optimized production build ...
+▲  ✓ Compiled successfully in 15.3s
+▲  Running TypeScript ...
+▲  Collecting page data using 3 workers ...
+▲  ⚠ Using edge runtime on a page currently disables static generation for that page
+▲  Generating static pages using 3 workers (0/17) ...
+▲  Generating static pages using 3 workers (4/17)
+▲  Generating static pages using 3 workers (8/17)
+▲  Generating static pages using 3 workers (12/17)
+▲  ✓ Generating static pages using 3 workers (17/17) in 851.5ms
+▲  Finalizing page optimization ...
+▲
+▲  Route (app)
+▲  ┌ ○ /
+▲  ├ ○ /_not-found
+▲  ├ ○ /about
+▲  ├ ƒ /api/ai-search
+▲  ├ ○ /compare
+▲  ├ ○ /dashboard/agency
+▲  ├ ○ /dashboard/private
+▲  ├ ○ /login
+▲  ├ ○ /properties
+▲  ├ ● /properties/[id]
+▲  │ ├ /properties/1
+▲  │ ├ /properties/2
+▲  │ ├ /properties/3
+▲  │ └ [+2 more paths]
+▲  ├ ○ /register
+▲  └ ○ /search
+▲  ○  (Static)   prerendered as static content
+▲  ●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+▲  ƒ  (Dynamic)  server-rendered on demand
+▲
+▲  Tracing initial Next.js server files due to missing build trace: 13.811s
+▲  Traced Next.js server files in: 15.232s
+▲  Created all serverless functions in: 342.026ms
+▲  Collected static files (public/, static/, .next/static): 8.484ms
+▲  Build Completed in .vercel/output [46s]
+⚡️ Completed `bunx vercel build`.
+⚡️ Invalid prerender config for /properties/[id]
+⚡️ Invalid prerender config for /properties/[id].rsc
+
+⚡️ Build Summary (@cloudflare/next-on-pages v1.13.16)
+⚡️
+⚡️ Edge Function Routes (1)
+⚡️   - /api/ai-search
+⚡️
+⚡️ Prerendered Routes (134)
+⚡️   ┌ /
+⚡️   ├ /_global-error
+⚡️   ├ /_global-error.rsc
+⚡️   ├ /_global-error.segments/__PAGE__.segment.rsc
+⚡️   ├ /_global-error.segments/_full.segment.rsc
+⚡️   ├ /_global-error.segments/_head.segment.rsc
+⚡️   ├ /_global-error.segments/_index.segment.rsc
+⚡️   ├ /_global-error.segments/_tree.segment.rsc
+⚡️   ├ /_not-found
+⚡️   ├ /_not-found.rsc
+⚡️   ├ /_not-found.segments/_full.segment.rsc
+⚡️   ├ /_not-found.segments/_head.segment.rsc
+⚡️   ├ /_not-found.segments/_index.segment.rsc
+⚡️   ├ /_not-found.segments/_not-found.segment.rsc
+⚡️   ├ /_not-found.segments/_not-found/__PAGE__.segment.rsc
+⚡️   ├ /_not-found.segments/_tree.segment.rsc
+⚡️   ├ /about
+⚡️   ├ /about.rsc
+⚡️   ├ /about.segments/_full.segment.rsc
+⚡️   └ ... 115 more
+⚡️
+⚡️ Other Static Assets (46)
+⚡️   ┌ /404.html
+⚡️   ├ /404.rsc.json
+⚡️   ├ /404.segments/_tree.segment.rsc.json
+⚡️   ├ /500.html
+⚡️   └ ... 42 more
+
+⚡️ Build log saved to '.vercel/output/static/_worker.js/nop-build-log.json'
+⚡️ Generated '.vercel/output/static/_worker.js/index.js'.
+⚡️ Build completed in 1.39s

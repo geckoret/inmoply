@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:build": "export PATH=\"$(pwd)/scripts:$PATH\" && npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "eslint",
     "test": "bun test"
@@ -29,13 +29,17 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
+    "@happy-dom/global-registrator": "^20.6.1",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
     "@types/mapbox-gl": "^3.4.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "happy-dom": "^20.6.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
