@@ -1,127 +1,130 @@
-'use client';
-
 import React from 'react';
-import PriceHistoryChart from '@/components/property/PriceHistoryChart';
-import { ShieldCheck, MapPin, Info, TrendingUp, Trees, Volume2 } from 'lucide-react';
+import { mockProperties } from '@/lib/mockData';
+import MediaGallery from '@/components/property/MediaGallery';
+import ContactForm from '@/components/property/ContactForm';
+import PropertyMap from '@/components/map/PropertyMap';
+import { notFound } from 'next/navigation';
+import { Bed, Bath, Square, MapPin, CheckCircle, Share2, Heart, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
-export default function PropertyDetailPage({ params }: { params: { id: string } }) {
+export function generateStaticParams() {
+  return mockProperties.map((property) => ({
+    id: property.id,
+  }));
+}
+
+export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const property = mockProperties.find((p) => p.id === id);
+
+  if (!property) {
+    notFound();
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-12">
-          {/* Gallery Placeholder */}
-          <div className="aspect-video bg-gray-100 rounded-3xl overflow-hidden relative">
-            <img 
-              src="https://images.unsplash.com/photo-1600607687940-477a63bd394c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-              alt="Property" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute top-6 left-6">
-              <span className="bg-white/90 backdrop-blur px-4 py-2 rounded-full text-sm font-bold text-green-600 shadow-sm flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4" />
-                Verified Listing
-              </span>
-            </div>
-          </div>
+    <div className="min-h-screen bg-white pb-20">
+      {/* Breadcrumbs / Back */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <Link href="/search" className="inline-flex items-center gap-2 text-gray-500 hover:text-indigo-600 transition-colors mb-6 font-medium">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Search
+        </Link>
 
+        {/* Header (Title & Price) */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-4">Modern Loft in Poblenou</h1>
-            <div className="flex items-center gap-2 text-gray-500 mb-8">
-              <MapPin className="w-4 h-4" />
-              <span>Carrer de Llull, Barcelona</span>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 leading-tight">
+              {property.title}
+            </h1>
+            <div className="flex items-center gap-2 text-gray-500 font-medium">
+              <MapPin className="w-5 h-5 text-indigo-500" />
+              {property.address}, {property.city}
             </div>
-            
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Industrial style loft with high ceilings, large windows, and premium finishes. Located in the trendy neighborhood of Poblenou, just minutes from the beach and tech hub.
-            </p>
           </div>
-
-          {/* Market Insights Section */}
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-indigo-50 rounded-xl">
-                <TrendingUp className="w-6 h-6 text-indigo-600" />
-              </div>
-              <h2 className="text-2xl font-bold">Market Insights</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                  Price History
-                  <Info className="w-4 h-4 text-gray-400" />
-                </h3>
-                <PriceHistoryChart />
-              </div>
-
-              <div className="space-y-8">
-                <h3 className="font-semibold text-gray-900 mb-6">Neighborhood Vibe</h3>
-                
-                <div className="space-y-6">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                        <Trees className="w-4 h-4 text-emerald-500" />
-                        Greenery
-                      </span>
-                      <span className="text-sm font-bold">High</span>
-                    </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: '85%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                        <Volume2 className="w-4 h-4 text-orange-500" />
-                        Noise Level
-                      </span>
-                      <span className="text-sm font-bold">Moderate</span>
-                    </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-orange-500 rounded-full" style={{ width: '45%' }} />
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
-                    <p className="text-sm text-indigo-900 leading-relaxed">
-                      <span className="font-bold">Pro Tip:</span> This area has seen a <span className="font-bold">12% price increase</span> in the last year due to the new tech park expansion.
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col items-end gap-2">
+            <span className="text-3xl md:text-4xl font-bold text-indigo-600">
+              {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.price)}
+            </span>
+            <div className="flex gap-2">
+              <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all">
+                <Heart className="w-5 h-5" />
+              </button>
+              <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 transition-all">
+                <Share2 className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Sticky Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-28 bg-white rounded-3xl p-8 border border-gray-100 shadow-xl">
-            <div className="mb-8">
-              <p className="text-gray-500 text-sm mb-1 font-medium">Price</p>
-              <h3 className="text-4xl font-black text-gray-900">420.000 €</h3>
+        {/* Media Gallery */}
+        <div className="mb-12">
+          <MediaGallery
+            images={property.images}
+            videoUrl={property.video_url}
+            virtualTourUrl={property.virtual_tour_url}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-12">
+
+            {/* Key Features */}
+            <div className="grid grid-cols-3 gap-4 p-6 bg-gray-50 rounded-3xl border border-gray-100">
+              <div className="flex flex-col items-center justify-center text-center">
+                <Bed className="w-8 h-8 text-indigo-500 mb-2" />
+                <span className="text-2xl font-bold text-gray-900">{property.bedrooms}</span>
+                <span className="text-sm text-gray-500 font-medium">Bedrooms</span>
+              </div>
+              <div className="flex flex-col items-center justify-center text-center border-l border-gray-200">
+                <Bath className="w-8 h-8 text-indigo-500 mb-2" />
+                <span className="text-2xl font-bold text-gray-900">{property.bathrooms}</span>
+                <span className="text-sm text-gray-500 font-medium">Bathrooms</span>
+              </div>
+              <div className="flex flex-col items-center justify-center text-center border-l border-gray-200">
+                <Square className="w-8 h-8 text-indigo-500 mb-2" />
+                <span className="text-2xl font-bold text-gray-900">{property.area}</span>
+                <span className="text-sm text-gray-500 font-medium">Square Meters</span>
+              </div>
             </div>
 
-            <div className="space-y-4 mb-8">
-              <button className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20">
-                Contact Seller
-              </button>
-              <button className="w-full py-4 bg-white border border-gray-200 text-gray-900 rounded-2xl font-bold hover:bg-gray-50 transition-all">
-                Schedule Visit
-              </button>
-            </div>
+            {/* Description */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">About this property</h2>
+              <p className="text-gray-600 leading-relaxed text-lg">
+                {property.description}
+              </p>
+            </section>
 
-            <div className="pt-8 border-t border-gray-50 flex items-center gap-4">
-              <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-                <img src="https://i.pravatar.cc/150?u=1" alt="Avatar" />
+            {/* Amenities */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Features & Amenities</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {property.features.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl hover:border-indigo-100 hover:shadow-sm transition-all">
+                    <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                    <span className="font-medium text-gray-700">{feature}</span>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="font-bold">Amir Shokri</p>
-                <p className="text-sm text-gray-500">Private Seller</p>
+            </section>
+
+            {/* Location */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Location</h2>
+              <div className="h-[400px] rounded-3xl overflow-hidden border border-gray-200 shadow-sm">
+                <PropertyMap center={[property.lng, property.lat]} zoom={15} />
               </div>
-            </div>
+              <p className="mt-4 text-gray-500 flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Exact location provided after booking a visit.
+              </p>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <ContactForm property={property} />
           </div>
         </div>
       </div>
