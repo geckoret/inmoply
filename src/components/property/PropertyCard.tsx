@@ -16,7 +16,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const isCompared = items.some(item => item.id === property.id);
 
   const handleCompare = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigation
+    e.preventDefault();
     e.stopPropagation();
     addItem(property);
   };
@@ -26,98 +26,139 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
+        whileHover={{ y: -8 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-3xl overflow-hidden border border-blue-100 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 h-full flex flex-col"
       >
-        <div className="relative aspect-[4/3] overflow-hidden">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-100 to-cyan-100">
           <img 
             src={property.images[0]}
             alt={property.title}
             className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
           />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
             {property.is_verified && (
-              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-emerald-600 shadow-sm">
-                <ShieldCheck className="w-3.5 h-3.5" />
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-emerald-600 shadow-sm"
+              >
+                <ShieldCheck className="w-4 h-4" />
                 Verified
-              </span>
+              </motion.span>
             )}
             {property.video_url && (
-              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-indigo-600 shadow-sm">
-                <Video className="w-3.5 h-3.5" />
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-blue-600 shadow-sm"
+              >
+                <Video className="w-4 h-4" />
                 Video
-              </span>
+              </motion.span>
             )}
             {property.virtual_tour_url && (
-              <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-violet-600 shadow-sm">
-                <Box className="w-3.5 h-3.5" />
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full text-xs font-bold text-cyan-600 shadow-sm"
+              >
+                <Box className="w-4 h-4" />
                 360°
-              </span>
+              </motion.span>
             )}
           </div>
 
-          <div className="absolute top-4 right-4 flex gap-2 z-10">
-            <button
+          {/* Action Buttons */}
+          <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleCompare}
-              className={`p-2.5 rounded-full backdrop-blur-md transition-all shadow-sm ${
+              className={`p-3 rounded-full backdrop-blur-md transition-all shadow-md ${
                 isCompared
-                  ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                  : 'bg-white/90 text-gray-400 hover:text-indigo-600 hover:bg-white'
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg'
+                  : 'bg-white/95 text-gray-400 hover:text-blue-500 hover:bg-white'
               }`}
-              title={isCompared ? "Added to compare" : "Add to compare"}
+              title={isCompared ? 'Added to compare' : 'Add to compare'}
             >
               <Scale className="w-5 h-5" />
-            </button>
-            <button className="p-2.5 rounded-full bg-white/90 backdrop-blur-md text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm">
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 rounded-full bg-white/95 backdrop-blur-md text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-md"
+            >
               <Heart className="w-5 h-5" />
-            </button>
+            </motion.button>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent" />
-
-          <div className="absolute bottom-4 left-4 right-4 text-white">
-            <p className="text-2xl font-bold tracking-tight">
+          {/* Price Badge */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <p className="text-3xl font-bold text-white drop-shadow-lg tracking-tight">
               {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.price)}
             </p>
           </div>
         </div>
 
-        <div className="p-5 flex flex-col flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className={`inline-block w-2 h-2 rounded-full ${property.seller_type === 'agency' ? 'bg-indigo-500' : 'bg-emerald-500'}`} />
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-              {property.seller_type}
+        {/* Content */}
+        <div className="p-6 flex flex-col flex-1">
+          {/* Seller Type */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`inline-block w-2.5 h-2.5 rounded-full ${property.seller_type === 'agency' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-emerald-500 to-teal-500'}`} />
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+              {property.seller_type === 'agency' ? '🏢 Agency' : '👤 Private'}
             </span>
           </div>
 
-          <h3 className="font-bold text-lg text-gray-900 mb-1 leading-tight line-clamp-1 group-hover:text-indigo-600 transition-colors">
+          {/* Title */}
+          <h3 className="font-bold text-lg text-gray-900 mb-1 leading-tight line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-text transition-colors">
             {property.title}
           </h3>
-          <p className="text-gray-500 text-sm mb-4 line-clamp-1">{property.address}</p>
           
-          <div className="mt-auto pt-4 border-t border-gray-100 grid grid-cols-3 gap-2">
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
-              <span className="text-xs text-gray-400 font-medium mb-1">Beds</span>
-              <div className="flex items-center gap-1 font-bold text-gray-700">
-                <Bed className="w-4 h-4 text-indigo-500" />
+          {/* Address */}
+          <p className="text-gray-500 text-sm mb-5 line-clamp-1 flex items-center gap-2">
+            📍 {property.address}
+          </p>
+          
+          {/* Stats */}
+          <div className="mt-auto pt-5 border-t border-gray-100 grid grid-cols-3 gap-3">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
+            >
+              <span className="text-xs text-gray-500 font-medium mb-1.5">Beds</span>
+              <div className="flex items-center gap-1 font-bold text-gray-800">
+                <Bed className="w-4 h-4 text-blue-500" />
                 {property.bedrooms}
               </div>
-            </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
-              <span className="text-xs text-gray-400 font-medium mb-1">Baths</span>
-              <div className="flex items-center gap-1 font-bold text-gray-700">
-                <Bath className="w-4 h-4 text-indigo-500" />
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
+            >
+              <span className="text-xs text-gray-500 font-medium mb-1.5">Baths</span>
+              <div className="flex items-center gap-1 font-bold text-gray-800">
+                <Bath className="w-4 h-4 text-cyan-500" />
                 {property.bathrooms}
               </div>
-            </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-gray-50 group-hover:bg-indigo-50 transition-colors">
-              <span className="text-xs text-gray-400 font-medium mb-1">Area</span>
-              <div className="flex items-center gap-1 font-bold text-gray-700">
-                <Square className="w-4 h-4 text-indigo-500" />
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 group-hover:from-blue-100 group-hover:to-cyan-100 transition-colors cursor-default"
+            >
+              <span className="text-xs text-gray-500 font-medium mb-1.5">Area</span>
+              <div className="flex items-center gap-1 font-bold text-gray-800">
+                <Square className="w-4 h-4 text-blue-400" />
                 {property.area}m²
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>
