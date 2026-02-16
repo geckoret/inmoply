@@ -18,7 +18,8 @@ const mockProperty = (id: string): Property => ({
   is_verified: true,
   seller_type: 'private',
   created_at: new Date().toISOString(),
-  features: []
+  features: [],
+  type: 'house'
 });
 
 describe("useComparisonStore", () => {
@@ -72,6 +73,25 @@ describe("useComparisonStore", () => {
     const state = useComparisonStore.getState();
     expect(state.items).toHaveLength(1);
     expect(state.items[0].id).toBe("2");
+  });
+
+  test("should handle removing an item that does not exist", () => {
+    useComparisonStore.getState().addItem(mockProperty("1"));
+    useComparisonStore.getState().addItem(mockProperty("2"));
+
+    useComparisonStore.getState().removeItem("3");
+
+    const state = useComparisonStore.getState();
+    expect(state.items).toHaveLength(2);
+    expect(state.items[0].id).toBe("1");
+    expect(state.items[1].id).toBe("2");
+  });
+
+  test("should handle removing from an empty list", () => {
+    useComparisonStore.getState().removeItem("1");
+
+    const state = useComparisonStore.getState();
+    expect(state.items).toEqual([]);
   });
 
   test("should clear all items", () => {
