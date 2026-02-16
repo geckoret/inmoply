@@ -32,7 +32,19 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
     return () => {
       map.current?.remove();
+      map.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!map.current) return;
+
+    map.current.flyTo({
+      center: center,
+      zoom: zoom,
+      essential: true,
+    });
   }, [center, zoom]);
 
   return (
