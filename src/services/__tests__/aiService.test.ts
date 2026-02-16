@@ -115,4 +115,25 @@ ${JSON.stringify(mockResponse)}
       consoleSpy.mockRestore();
     }
   });
+
+  // 7. Malformed JSON within Markdown
+  test("should return null and log error when AI returns malformed JSON within markdown blocks", async () => {
+    const malformedJson = `\`\`\`json
+{
+  "keywords": ["pool"],
+  "city": "Madrid"
+\`\`\``; // Missing closing brace
+    mockGenerateText.mockResolvedValueOnce({ text: malformedJson });
+
+    // Suppress console.error
+    const consoleSpy = spyOn(console, "error").mockImplementation(() => {});
+
+    try {
+      const result = await parseNaturalLanguageQuery("malformed");
+      expect(result).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith("Failed to parse AI response", expect.any(Error));
+    } finally {
+      consoleSpy.mockRestore();
+    }
+  });
 });
