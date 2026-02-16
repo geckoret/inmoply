@@ -51,7 +51,7 @@ export default function RegisterPage() {
               }`}
             >
               <User className="w-4 h-4" />
-              I'm a Buyer/Tenant
+              I&apos;m a Buyer/Tenant
             </button>
             <button
               onClick={() => setActiveTab('agency')}
@@ -62,7 +62,7 @@ export default function RegisterPage() {
               }`}
             >
               <Building2 className="w-4 h-4" />
-              I'm an Agent/Owner
+              I&apos;m an Agent/Owner
             </button>
           </div>
 

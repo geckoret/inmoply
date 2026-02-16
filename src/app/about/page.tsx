@@ -11,7 +11,7 @@ export default function AboutPage() {
             Our Mission
           </span>
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
-            We're changing how you <br />
+            We&apos;re changing how you <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">find a home.</span>
           </h1>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -47,10 +47,10 @@ export default function AboutPage() {
             Traditional real estate platforms are crowded with ads, duplicates, and outdated listings. We knew there had to be a better way.
           </p>
           <p>
-            We built Inmoply with a "user-first" philosophy. Every feature, from our AI search to our 360° virtual tours, is designed to give you clarity and confidence.
+            We built Inmoply with a &quot;user-first&quot; philosophy. Every feature, from our AI search to our 360° virtual tours, is designed to give you clarity and confidence.
           </p>
           <p>
-            Whether you're looking for a cozy studio or a sprawling villa, we're here to guide you every step of the way. Welcome to the future of real estate.
+            Whether you&apos;re looking for a cozy studio or a sprawling villa, we&apos;re here to guide you every step of the way. Welcome to the future of real estate.
           </p>
         </div>
       </section>
