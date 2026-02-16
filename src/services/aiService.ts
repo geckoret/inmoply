@@ -1,5 +1,5 @@
 import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 
 export interface SearchFilters {
   min_bedrooms?: number;
@@ -10,8 +10,9 @@ export interface SearchFilters {
 }
 
 export const parseNaturalLanguageQuery = async (query: string) => {
+  // We use gemini-1.5-flash as it is extremely fast and cost-effective
   const { text } = await generateText({
-    model: openai('gpt-4o'),
+    model: google('gemini-1.5-flash'),
     system: `You are a real estate expert assistant. 
     Convert the user's natural language property search query into a structured JSON filter object.
     Extracted fields:
@@ -21,12 +22,14 @@ export const parseNaturalLanguageQuery = async (query: string) => {
     - property_type: (string, e.g., 'flat', 'house', 'loft')
     - keywords: (array of strings, e.g., ['quiet', 'natural light', 'near park'])
     
-    Return ONLY the JSON object.`,
+    Return ONLY the JSON object. Do not include markdown formatting like \`\`\`json.`,
     prompt: query,
   });
 
   try {
-    return JSON.parse(text) as SearchFilters;
+    // Clean potential markdown or extra whitespace from AI
+    const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(cleanedText) as SearchFilters;
   } catch (e) {
     console.error('Failed to parse AI response', e);
     return null;
