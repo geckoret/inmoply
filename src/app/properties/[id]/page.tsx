@@ -7,11 +7,7 @@ import { notFound } from 'next/navigation';
 import { Bed, Bath, Square, MapPin, CheckCircle, Share2, Heart, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export function generateStaticParams() {
-  return mockProperties.map((property) => ({
-    id: property.id,
-  }));
-}
+export const runtime = 'edge';
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
