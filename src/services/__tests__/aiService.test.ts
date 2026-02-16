@@ -17,7 +17,7 @@ mock.module("@ai-sdk/google", () => ({
 
 // Import the function under test AFTER setting up mocks
 // This import will now use the mocked modules
-import { parseNaturalLanguageQuery } from "../aiService";
+import { parseNaturalLanguageQuery, SEARCH_FILTERS_SYSTEM_PROMPT } from "../aiService";
 
 describe("parseNaturalLanguageQuery", () => {
   beforeEach(() => {
@@ -47,6 +47,7 @@ describe("parseNaturalLanguageQuery", () => {
     // Check arguments passed to generateText
     const callArgs = mockGenerateText.mock.calls[0][0];
     expect(callArgs.prompt).toBe("I want a quiet flat in Barcelona with a balcony and at least 2 bedrooms for max 500k");
+    expect(callArgs.system).toBe(SEARCH_FILTERS_SYSTEM_PROMPT);
   });
 
   // 2. Markdown Handling
