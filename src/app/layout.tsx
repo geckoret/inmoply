@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import AIConcierge from "@/components/ai/AIConcierge";
 import ComparisonTray from "@/components/property/ComparisonTray";
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         <main className="min-h-screen pt-16">
           {children}
         </main>
+        <Footer />
         <AIConcierge />
         <ComparisonTray />
       </body>

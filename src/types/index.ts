@@ -11,11 +11,14 @@ export type Property = {
   lat: number;
   lng: number;
   images: string[];
+  video_url?: string;
+  virtual_tour_url?: string;
   is_verified: boolean;
   seller_type: 'private' | 'agency';
   agency_id?: string;
   created_at: string;
   features: string[];
+  type: 'house' | 'apartment' | 'penthouse' | 'loft' | 'duplex';
 };
 
 export type UserProfile = {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useComparisonStore } from '@/store/useComparisonStore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, ArrowRightLeft, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 

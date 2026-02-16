@@ -30,7 +30,7 @@ const PriceHistoryChart = () => {
           />
           <Tooltip 
             contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-            formatter={(value: any) => [
+            formatter={(value: number | string | Array<number | string> | undefined) => [
               new Intl.NumberFormat('es-ES', { 
                 style: 'currency', 
                 currency: 'EUR',
