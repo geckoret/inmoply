@@ -40,13 +40,32 @@ describe("useComparisonStore", () => {
     expect(state.items[0].id).toBe("1");
   });
 
-  test("should not add duplicate items", () => {
+  test("should not add duplicate items (same reference)", () => {
     const property = mockProperty("1");
     useComparisonStore.getState().addItem(property);
+
+    const previousItems = useComparisonStore.getState().items;
     useComparisonStore.getState().addItem(property);
 
-    const state = useComparisonStore.getState();
-    expect(state.items).toHaveLength(1);
+    const currentItems = useComparisonStore.getState().items;
+    expect(currentItems).toHaveLength(1);
+    expect(currentItems).toBe(previousItems); // Verify reference equality
+  });
+
+  test("should not add duplicate items (different reference, same ID)", () => {
+    const property1 = mockProperty("1");
+    const property1Duplicate = mockProperty("1"); // Different object, same ID
+
+    useComparisonStore.getState().addItem(property1);
+    expect(useComparisonStore.getState().items).toHaveLength(1);
+
+    const previousItems = useComparisonStore.getState().items;
+    useComparisonStore.getState().addItem(property1Duplicate);
+
+    const currentItems = useComparisonStore.getState().items;
+    expect(currentItems).toHaveLength(1);
+    expect(currentItems[0]).toBe(property1); // Should still be the first object
+    expect(currentItems).toBe(previousItems); // Verify reference equality
   });
 
   test("should limit items to 3", () => {
@@ -56,11 +75,15 @@ describe("useComparisonStore", () => {
 
     expect(useComparisonStore.getState().items).toHaveLength(3);
 
+    const previousItems = useComparisonStore.getState().items;
+
     // Attempt to add a 4th item
     useComparisonStore.getState().addItem(mockProperty("4"));
 
-    expect(useComparisonStore.getState().items).toHaveLength(3);
-    expect(useComparisonStore.getState().items.find(i => i.id === "4")).toBeUndefined();
+    const currentItems = useComparisonStore.getState().items;
+    expect(currentItems).toHaveLength(3);
+    expect(currentItems).toBe(previousItems); // Verify items array reference is same
+    expect(currentItems.find(i => i.id === "4")).toBeUndefined();
   });
 
   test("should remove an item", () => {
