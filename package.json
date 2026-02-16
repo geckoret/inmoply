@@ -40,6 +40,7 @@
     "eslint-config-next": "16.1.6",
     "happy-dom": "^20.6.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^50.17.1"
   }
 }
