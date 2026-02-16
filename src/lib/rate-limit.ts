@@ -1,22 +1,31 @@
-import { LRUCache } from 'lru-cache';
-
 type RateLimitRecord = {
   count: number;
   startTime: number;
 };
 
-// Configure cache to hold up to 500 IPs.
-// TTL is set to 5 minutes to ensure records persist longer than the 1-minute rate limit window,
-// but eventually get cleaned up if the IP stops making requests.
-const options = {
-  max: 500,
-  ttl: 5 * 60 * 1000,
-};
+const cache = new Map<string, RateLimitRecord>();
 
-const cache = new LRUCache<string, RateLimitRecord>(options);
+// Simple cleanup mechanism: clean up every 5 minutes
+const CLEANUP_INTERVAL = 5 * 60 * 1000;
+let lastCleanup = Date.now();
+
+function cleanup() {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL) return;
+
+  for (const [ip, record] of cache.entries()) {
+    if (now - record.startTime > CLEANUP_INTERVAL) {
+      cache.delete(ip);
+    }
+  }
+  lastCleanup = now;
+}
 
 export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 * 1000) {
   const now = Date.now();
+
+  cleanup(); // Occasional cleanup
+
   let record = cache.get(ip);
 
   // Initialize if new
