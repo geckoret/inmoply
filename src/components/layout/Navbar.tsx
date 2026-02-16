@@ -2,71 +2,55 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Search, User, Menu, Home, Heart, Zap } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Heart, Menu, Home, User } from 'lucide-react';
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 glass shadow-lg shadow-blue-500/5 transition-all duration-300">
+    <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <motion.div 
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-br from-blue-500 to-cyan-500 p-2 rounded-xl shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all"
-              >
-                <Home className="w-6 h-6 text-white" />
-              </motion.div>
-              <span className="text-2xl font-bold bg-gradient-text">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="bg-brand-600 p-1.5 rounded-lg transition-transform group-hover:scale-105">
+                <Home className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold text-slate-900 tracking-tight group-hover:text-brand-600 transition-colors">
                 Inmoply
               </span>
             </Link>
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            <NavLink href="/search">🏠 Buy</NavLink>
-            <NavLink href="/search?type=rent">🔑 Rent</NavLink>
-            <NavLink href="/compare">⚖️ Compare</NavLink>
-            <NavLink href="/properties">📊 Trends</NavLink>
+          <div className="hidden md:flex items-center space-x-8">
+            <NavLink href="/search">Buy</NavLink>
+            <NavLink href="/search?type=rent">Rent</NavLink>
+            <NavLink href="/compare">Compare</NavLink>
+            <NavLink href="/properties">Trends</NavLink>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-2">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2.5 rounded-full text-gray-600 hover:text-blue-500 hover:bg-blue-50/80 transition-all"
-            >
+          <div className="flex items-center gap-3">
+             <button className="p-2 rounded-full text-slate-500 hover:bg-slate-50 hover:text-brand-600 transition-colors">
               <Search className="w-5 h-5" />
-            </motion.button>
+            </button>
             
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="/dashboard/private" className="p-2.5 rounded-full text-gray-600 hover:text-red-500 hover:bg-red-50/80 transition-all">
+            <Link href="/dashboard/private" className="p-2 rounded-full text-slate-500 hover:bg-slate-50 hover:text-red-500 transition-colors">
                 <Heart className="w-5 h-5" />
-              </Link>
-            </motion.div>
+            </Link>
 
-            <div className="hidden md:flex items-center space-x-2 ml-2 pl-2 border-l border-gray-200/50">
-              <NavLink href="/login">Log in</NavLink>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="/register" className="px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-bold hover:shadow-lg hover:shadow-blue-500/30 transition-all flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  Sign up
-                </Link>
-              </motion.div>
+            <div className="hidden md:flex items-center gap-3 ml-2 pl-2 border-l border-slate-200">
+              <Link href="/login" className="text-sm font-semibold text-slate-600 hover:text-brand-600 px-3 py-2 transition-colors">
+                Log in
+              </Link>
+              <Link href="/register" className="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 shadow-sm hover:shadow-md transition-all">
+                Sign up
+              </Link>
             </div>
 
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="md:hidden p-2 text-gray-600 hover:bg-blue-50/80 rounded-lg"
-            >
+            <button className="md:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors">
               <Menu className="w-6 h-6" />
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>
@@ -77,10 +61,10 @@ const Navbar = () => {
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <Link
     href={href}
-    className="text-sm font-semibold text-gray-600 hover:text-blue-500 transition-colors relative group py-2 px-3"
+    className="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors relative group"
   >
     {children}
-    <span className="absolute bottom-1 left-0 w-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full group-hover:w-full transition-all duration-300 ease-out" />
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-600 group-hover:w-full transition-all duration-300" />
   </Link>
 );
 

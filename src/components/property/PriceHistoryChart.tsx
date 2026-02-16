@@ -1,51 +1,52 @@
-'use client';
-
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
-const data = [
-  { month: 'Jan', price: 410000 },
-  { month: 'Feb', price: 412000 },
-  { month: 'Mar', price: 415000 },
-  { month: 'Apr', price: 418000 },
-  { month: 'May', price: 417500 },
-  { month: 'Jun', price: 420000 },
-];
+interface PriceHistoryChartProps {
+  data: {
+    date: string;
+    price: number;
+  }[];
+}
 
-const PriceHistoryChart = () => {
+const PriceHistoryChart: React.FC<PriceHistoryChartProps> = ({ data }) => {
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-          <XAxis 
-            dataKey="month" 
-            axisLine={false} 
-            tickLine={false} 
-            tick={{ fill: '#9ca3af', fontSize: 12 }} 
-          />
-          <YAxis 
-            hide={true} 
-            domain={['dataMin - 5000', 'dataMax + 5000']} 
-          />
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
           <Tooltip 
-            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-            formatter={(value: any) => [
-              new Intl.NumberFormat('es-ES', { 
-                style: 'currency', 
-                currency: 'EUR',
-                maximumFractionDigits: 0 
-              }).format(Number(value || 0)), 
-              'Price'
-            ]}
+            formatter={(value: any) => {
+              if (value === undefined || value === null) return '';
+              const numValue = Number(value);
+              if (isNaN(numValue)) return value;
+              return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(numValue);
+            }}
+            contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
           />
-          <Line 
-            type="monotone" 
-            dataKey="price" 
-            stroke="#4f46e5" 
-            strokeWidth={3} 
-            dot={{ r: 4, fill: '#4f46e5', strokeWidth: 2, stroke: '#fff' }}
-            activeDot={{ r: 6, strokeWidth: 0 }} 
+          <Line
+            type="monotone"
+            dataKey="price"
+            stroke="#d946ef"
+            strokeWidth={3}
+            activeDot={{ r: 8 }}
           />
         </LineChart>
       </ResponsiveContainer>

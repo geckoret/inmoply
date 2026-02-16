@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import PropertyMap from '@/components/map/PropertyMap';
 import PropertyCard from '@/components/property/PropertyCard';
 import { mockProperties } from '@/lib/mockData';
-import { Filter, Search as SearchIcon, SlidersHorizontal, Map as MapIcon, List } from 'lucide-react';
+import { Filter, Search as SearchIcon, Map as MapIcon, List } from 'lucide-react';
 import Filters, { FilterState } from '@/components/search/Filters';
 
 export default function SearchPage() {
@@ -132,7 +132,7 @@ export default function SearchPage() {
                 <SearchIcon className="w-8 h-8 text-gray-400" />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">No properties found</h3>
-              <p className="text-gray-500 max-w-xs">Try adjusting your filters or search terms to find what you're looking for.</p>
+              <p className="text-gray-500 max-w-xs">Try adjusting your filters or search terms to find what you&apos;re looking for.</p>
               <button
                 onClick={() => {
                   setFilters({
