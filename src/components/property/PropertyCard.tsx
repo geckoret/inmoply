@@ -5,6 +5,7 @@ import { Bed, Bath, Square, ShieldCheck, Video, Box, Heart, Scale } from 'lucide
 import { Property } from '@/types';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useComparisonStore } from '@/store/useComparisonStore';
 
 interface PropertyCardProps {
@@ -32,10 +33,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       >
         {/* Image Container */}
         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-100 to-cyan-100">
-          <img 
-            src={property.images[0]}
+          <Image
+            src={property.images[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'}
             alt={property.title}
-            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            unoptimized
           />
           
           {/* Gradient Overlay */}
