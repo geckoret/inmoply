@@ -24,7 +24,8 @@ const mockProperties: Property[] = [
     is_verified: true,
     seller_type: 'agency',
     created_at: new Date().toISOString(),
-    features: ['Terrace', 'Elevator', 'Air Conditioning']
+    features: ['Terrace', 'Elevator', 'Air Conditioning'],
+    type: 'penthouse'
   },
   {
     id: '2',
@@ -42,7 +43,8 @@ const mockProperties: Property[] = [
     is_verified: true,
     seller_type: 'private',
     created_at: new Date().toISOString(),
-    features: ['Parking', 'Smart Home', 'Large Windows']
+    features: ['Parking', 'Smart Home', 'Large Windows'],
+    type: 'loft'
   },
   {
     id: '3',
@@ -60,7 +62,8 @@ const mockProperties: Property[] = [
     is_verified: false,
     seller_type: 'private',
     created_at: new Date().toISOString(),
-    features: ['Garden', 'Pool', 'Garage']
+    features: ['Garden', 'Pool', 'Garage'],
+    type: 'house'
   }
 ];
 

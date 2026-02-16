@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { parseNaturalLanguageQuery } from '@/services/aiService';
 
+export const runtime = 'edge';
+
 export async function POST(req: Request) {
   try {
     const { query } = await req.json();
