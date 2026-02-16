@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:build": "vercel build && next-on-pages --skip-build",
     "start": "next start",
     "lint": "eslint",
     "test": "bun test"
@@ -42,6 +42,7 @@
     "eslint-config-next": "16.1.6",
     "happy-dom": "^20.6.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^50.18.0"
   }
 }
