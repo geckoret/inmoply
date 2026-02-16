@@ -17,6 +17,7 @@
     "ai": "^6.0.86",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.0",
+    "lru-cache": "^11.2.6",
     "lucide-react": "^0.564.0",
     "mapbox-gl": "^3.18.1",
     "next": "16.1.6",
