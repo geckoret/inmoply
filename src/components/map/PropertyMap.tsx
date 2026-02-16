@@ -6,7 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
-interface PropertyMapProps {
+export interface PropertyMapProps {
   center?: [number, number];
   zoom?: number;
 }

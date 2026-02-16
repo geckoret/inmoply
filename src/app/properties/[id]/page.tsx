@@ -2,16 +2,12 @@ import React from 'react';
 import { mockProperties } from '@/lib/mockData';
 import MediaGallery from '@/components/property/MediaGallery';
 import ContactForm from '@/components/property/ContactForm';
-import PropertyMap from '@/components/map/PropertyMap';
+import PropertyMapWrapper from '@/components/map/PropertyMapWrapper';
 import { notFound } from 'next/navigation';
 import { Bed, Bath, Square, MapPin, CheckCircle, Share2, Heart, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export function generateStaticParams() {
-  return mockProperties.map((property) => ({
-    id: property.id,
-  }));
-}
+export const runtime = 'edge';
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -113,7 +109,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Location</h2>
               <div className="h-[400px] rounded-3xl overflow-hidden border border-gray-200 shadow-sm">
-                <PropertyMap center={[property.lng, property.lat]} zoom={15} />
+                <PropertyMapWrapper center={[property.lng, property.lat]} zoom={15} />
               </div>
               <p className="mt-4 text-gray-500 flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
