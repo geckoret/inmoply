@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, MapPin, DollarSign } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 
 type SearchType = 'buy' | 'rent';
@@ -34,7 +34,7 @@ const HeroSearch = () => {
     { value: 'loft', label: 'Loft' },
   ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -43,7 +43,7 @@ const HeroSearch = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, x: -20 },
     visible: (i: number) => ({
       opacity: 1,
