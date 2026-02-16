@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:build": "chmod +x scripts/bunx && export PATH=\"$(pwd)/scripts:$PATH\" && npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "eslint",
     "test": "bun test"
