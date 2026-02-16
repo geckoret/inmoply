@@ -9,6 +9,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
     }
 
+    if (typeof query !== 'string') {
+      return NextResponse.json({ error: 'Query must be a string' }, { status: 400 });
+    }
+
+    if (query.length > 500) {
+      return NextResponse.json({ error: 'Query is too long (max 500 characters)' }, { status: 400 });
+    }
+
     const filters = await parseNaturalLanguageQuery(query);
     
     return NextResponse.json({ filters });
