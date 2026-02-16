@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
+    "pages:build": "ln -sf $(which bun) bunx && PATH=$PWD:$PATH bun x @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "eslint",
     "test": "bun test"
